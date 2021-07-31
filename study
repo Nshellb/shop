@@ -26,4 +26,49 @@ npm run serve 로 vue 구동 확인. -> http://localhost:8080/ 로 브라우저 
  - css 속성들을 title 아래에 붙여 넣는다. (<!--===~===---> 형태의 주석행들 사이의 코드들.)
  - js 태그를 body 태그 안쪽 제일 아래에 붙여 넣는다. (<!--===~===---> 형태의 주석행들이 감싸는 코드 ~ <script src="js/main.js"></script>까지.)
  - 기타 부수적인 태그들도 (Back to top / container Selection1) div.app 태그틀 이후에 넣는다.
-적용한 코드들을 npm run serve 으로 실행한후 확인한다. (Element 에서 CSS, JS 태그 확인 / Console 에서 Error 없음 확인)
+적용한 코드들을 npm run serve(이하 vue 실행) 으로 실행한후 확인한다. (Element 에서 CSS, JS 태그 확인 / Console 에서 Error 없음 확인)
+
+6) 레이아웃 생성 - Header
+/src/components/Header.vue 생성.
+기본 코드 작성.
+
+<template>
+</template>
+
+<script>
+export default {
+    
+}
+</script>
+
+테마 index.html의 header 태그를 template 태그 안에 붙여 넣음.
+
+7) 레이아웃 생성 - Header
+/src/components/Footer.vue 생성.
+기본 코드 작성.
+
+<template>
+</template>
+
+<script>
+export default {
+    
+}
+</script>
+
+테마 index.html의 footer 태그를 template 태그 안에 붙여 넣음.
+
+8) 추가한 component 적용
+App.vue 의 div에 Header 및 Footer 태그를 추가하고 
+script에 Header와 Footer를 import 하고 
+export default - components에 Header와 Footer를 추가한다.
+// @ 경로는 Vue cli가 자동으로 /src와 연결해둔 경로이다.
+vue를 실행하여 브라우저로 접속하여 Header와 Footer를 확인할 수 있다.
+
+
+
+
+
+
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 2. 템플릿 구조
+1) 
