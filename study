@@ -71,4 +71,73 @@ vue를 실행하여 브라우저로 접속하여 Header와 Footer를 확인할 �
 
 
 [Vue.js] 템플릿을 활용한 Vue.js 개발 - 2. 템플릿 구조
-1) 
+1) 우측 상단 Select box 수정
+우클릭 - 검사를 통해 해당 요소의 html 태그를 확인할 수 있다.
+(이하 git에서 가져온 완성 코드이기에 나는 확인 안됨...) 
+select2 라는 태그가 확인되며 이는 패키지지로도 존재한다.(search google)
+테마 index.html의 css와 script에도 select2를 확인할 수 있다.
+브라우저의 Console에 select2 js 구문을 입력하는 경우 제대로 적용 되는것을 확인할 수 있다.
+-> 이는 script가 body 태그 어딘가에는 포함되어 있으나 
+   브라우저의 경우 div-app이라는 태그 하나만 있는 상태로 받아오게 된다.
+
+
+npm run build 명령을 통해서 브라우저가 실제 받게될 html 을 생성.
+/dist/index.html이 실제 브라우저가 받아오게될 html 파일.
+css 코드와 script 사이에 noscript 항목을 발견할 수 있다.
+
+
+script load 순서를 보다보면 해결책을 찾을 수 있는데
+vue.js logic이 들어있는 /js/app.~를 확인할 수 있고
+app.vue의 태그들이 load 되기전에 select2가 실행되기 때문에 오류가 난것으로 확인할 수 있다.
+
+
+select2의 적용 위치를 결정하기 위해서 
+Vue.js 공식 홈페이지에서 lifecycle을 확인하면,
+
+new Vue에서 component를 생성하고
+초록 및 노랑 부분은 Vue.js 내부에서 실행되는 부분이다.
+흰바탕의 붉은 글씨로 표기되는 beforeCreate 와 같은 부분이 실제 개발자가 코드를 심을 수 있는 부분이다.
+(created, mounted, beforeDestroy 부분을 주로 활용)
+
+created :instance 가 생성된 다음 바로 호출된다. 
+Vue instance 는 생성 되었지만 화면에 그려진 상태가 아니라서 태그에 접근하지는 못하고 data, method 만 사용 가능한 상태이다.
+api 로 data를 가져와서 출력 해야하는 component의 경우 created 에 api 로 data를 가져오는 logic을 넣으면 된다.
+
+mounted : 화면에 그려진뒤 호출된다.
+화면에 출력이 되었기 때문에 태그에 접근할 수 있어서 대부분의 작업이 이루어지는 단계이다.
+화면 출력(태그 load) 이후에 작업이 이루어져야 하는 코드의 경우 mounted 에 logic을 넣으면 된다.
+
+beforeDestroy : instance 가 제거되기전에 호출된다.
+별도의 event listener를 등록한 경우 이곳에서 제거를 진행하는 logic을 넣으면 된다.
+
+
+/public/index.html의 select2 코드를 잘라내서 
+App.vue 파일의 mounted 메소드를 만들고 붙여넣는다. 
+(mounted의 경우 methods 영역이 아닌 export default 바로 안쪽에 작성한다.)
+
+vue를 실행하여 확인해보면 제대로 적용되었음을 확인할 수 있다.
+
+2) 우측 상단 장바구니 수정
+우클릭 - 검사를 통해 해당 요소의 html 태그를 확인할 수 있다.
+class="header-icon1 js-show-header-dropdown"을 확인할 수 있다.
+
+header-icon1 으로 코드를 검색해보면 css 적용만 확인된다. (기능과 관련없음 확인)
+js-show-header-dropdown 으로 코드를 검색해보면 /public/js/main.js 안의 script 코드를 확인할 수 있다.
+
+main.js 안의 코드를 확인해 보면 화면 load 후에 동작하는 코드들이 여러개 있음을 확인할 수 있다.
+이 코드들을 main.js 안에 $.initialize 라는 함수로 묶어서 안에 모두 정의한뒤(옮겨 넣은뒤)
+App.js 안에 mounted 부분에 $.initialize();로 호출한다.
+vue를 실행하여 동작을 확인할 수 있다.
+
+추가적으로 select2의 코드도 main.js 의 코드와 같은 성격이기에 
+main.js의 $.initialize method 안에 select2 코드도 추가한다.
+(한 번에 호출하기 위함.)
+
+vue.js 용으로 생성한 템플릿이 아닌경우 이와 같은 script 문제가 많이 발생하는데
+해당 태그에 기능을 부여하는 코드를 찾아서 수정하면 된다. (대체로 mounted 태그에 추가.)
+
+
+
+
+
+
