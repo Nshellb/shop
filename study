@@ -5,6 +5,7 @@ manual -> babel, Router, vuex 선택 -> 모두 enter
 2) 예제용 테마 다운로드
 https://colorlib.com/wp/ 페이지의 fashe 테마 사용.
 (테마 경로 - https://colorlib.com/wp/template/fashe/)
+유료화 되었기에 https://github.com/lessipe/vue-fashe/tree/master/public 코드 사용...
 
 3) 예제용 이미지 다운로드
 https://picsum.photos/ 페이지의 Random 이미지 사용.
@@ -18,3 +19,11 @@ npm run serve 로 vue 구동 확인. -> http://localhost:8080/ 로 브라우저 
 /src/router/index.js 삭제 및 /src/router.js 작성. (기존과 다른 형식의 코드여서 사용해보기로..) (vue-router)
 /src/store/index.js 코드 확인 및 main.js의 router 및 store 코드 정정. (vuex)
 /src/App.vue 의 template>div 만 남기고 style 태그 삭제
+
+5) 테마 적용
+테마의 css, fonts, images, js, vendor 디렉토리를 /public/ 에 넣는다.
+테마의 index.html 코드를 /public/index.html 에 옮겨넣는다.
+ - css 속성들을 title 아래에 붙여 넣는다. (<!--===~===---> 형태의 주석행들 사이의 코드들.)
+ - js 태그를 body 태그 안쪽 제일 아래에 붙여 넣는다. (<!--===~===---> 형태의 주석행들이 감싸는 코드 ~ <script src="js/main.js"></script>까지.)
+ - 기타 부수적인 태그들도 (Back to top / container Selection1) div.app 태그틀 이후에 넣는다.
+적용한 코드들을 npm run serve 으로 실행한후 확인한다. (Element 에서 CSS, JS 태그 확인 / Console 에서 Error 없음 확인)
