@@ -39,6 +39,7 @@
                 <div class="wrap_menu">
                     <nav class="menu">
                         <ul class="main_menu">
+                            <!-- 현재 페이지에 따라서 링크를 받아오고 표시를 하는 구문 시작 -->
                             <router-link :to="{name: 'home'}" tag="li" active-class="sale-noti" exact>
                                 <a>Home</a>
                             </router-link>
@@ -50,6 +51,7 @@
                             <router-link :to="{name: 'features'}" tag="li" active-class="sale-not" exact>
                                 <a>Features</a>
                             </router-link>
+                            <!-- 현재 페이지에 따라서 링크를 받아오고 표시를 하는 구문 끝 -->
                         </ul>
                     </nav>
                 </div>

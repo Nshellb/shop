@@ -141,3 +141,30 @@ vue.js 용으로 생성한 템플릿이 아닌경우 이와 같은 script 문제
 
 
 
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 3. 라우터 적용하기
+vue-router 를 활용해서 url에 맞는 component를 Header 와 Footer 사이에 넣어주고
+menu url을 수정할 예정.
+
+1) Home 및 shop page 페이지 반영
+router.js 파일에 경로마다 보여줄 component 가 정의되어있다.
+
+views 에 Shop.vue 를 추가하고 router.js 에 shop.vue 를 import 하고 경로와 component를 지정한다.
+App.vue 에 접속 경로마다 변경될 곳인 <router-view />를 Header와 Footer 사이에 추가한다.
+
+2) Header 내용의 링크 설정
+Header.vue 의 코드를 보면 main menu 에서 li>a 에서 링크를 걸고 있고 
+sale-noti class 를 통해서 활성화된 menu 를 표시하고 있다.
+구조에 맞춰서 link tag 의 출력을 위해서 
+vue-router 에서 제공하는 router-link component를 사용한다.
+
+to attribute 에 home 이라는 router 를 지정해주고 tag 로는 링크인 a 태그를 감쌀 li 태그를 지정한다.
+url 과 router 에 지정된 home url 이 동일할 경우 sale-noti 라는 class 적용을 위해서 active-class 에 지정해준다.
+url matching test 를 더 명확히 하기 위해서 exact 라는 attribute 를 추가해준다. + shop 도 추가.
+
+topbar-social 의 경우 새창에서 열리는 것들이기에 그냥 a tag를 작성한다.
+
+
+
+
+
+
