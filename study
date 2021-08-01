@@ -331,3 +331,55 @@ BestProductList.vue 의 computed method - xxxColumn 에서 slice 하지 못하�
 
 [Vue.js] 템플릿을 활용한 Vue.js 개발 - 7. Featured product 영역 구현하기
 Featured products 영역 구현. new sale 붙은 항목, slide 기능. hover 시 장바구니 담는 버튼.
+
+1) featured-product data 입력
+/public/api/featured-product.json 생성후 data 입력.
+
+2) featured-product data 를 가져오는 api 구현
+/src/api/product.js 에 featured-product.json 의 data 를 가져오는 method 작성.
+
+3) featured-product vuex 코드 추가 
+/src/store/product/index.js 에 state, mutations, actions 추가.
+
+4) Featured Products 화면 출력 부분 작성.
+/src/components/home/FeaturedProductList.vue 생성.
+테마의 index.html 의 Featured Products 관련 부분을 template 에 붙여 넣는다.
+script 에 mapState import 및 computed, created 작성.
+
+5) Featured Products 를 메인 화면에 연결.
+/src/views/Home.vue 에 FeaturedProductList 를 import, components, template 에 추가.
+
+6) slick2 적용.
+FeaturedProductList.vue 의 class="slick2" 에 ref="slick" 적용.
+created 추가작성하여 slick2 적용.
+
+7) vuex 에서 가져온 data 로 화면 출력.
+중복되는 형태들을 모두 삭제하고 template 로 감싸서 v-for 로 출력.
+상품에 맞게 바뀌어야 하는 data 들도 바꾸어준다.
+
+여기까지가 layout 및 vuex 에서 data 를 받아서 출력하는 구문.
+
+
+Featured Products 에서 add to cart 를 누르면 cart 에 항목이 저장되는 기능 구현 필요.
+
+8) cart 기능 구현
+/src/store/cart/index.js 생성 및 코드 작성
+
+9) main index.js 에 cart 추가
+/src/store/index.js 에서 cart 를 import, modules 에 추가한다.
+
+10) cart 에 추가하는 기능을 버튼에 연결
+FeaturedProductList.vue 의 button 에 @click 으로 addToCart 기능 연결.
+addToCart method 추가.
+
+브라우저에서 개발자도구 - vue - vuex 에서 addToCart 를 누르면 상품이 추가되는것을 확인할 수 있다.
+추가된 상품과 계산된 총 금액을 Header 에서 가져와서 장바구니에 추가되어 보여지도록 한다.
+
+11) 장바구니 담긴 상품과 총 금액을 vuex에서 받아옴
+Header.vue 에서 mapState 와 mapGetters 를 작성한다.
+header cart noti 에 해당하는 반복되는 태그를 삭제하고
+template 으로 감싸고 v-for 로 반복하여 출력하도록 구현한다.
+(모바일 페이지 포함.)
+
+브라우저에서 addToCart 이후 장바구니를 확인하면
+정상적으로 상품이 담기고 총 금액이 계산된것을 확인할 수 있다.

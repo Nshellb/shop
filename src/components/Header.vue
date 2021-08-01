@@ -66,7 +66,7 @@
 
                     <div class="header-wrapicon2">
                         <img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-                        <span class="header-icons-noti">{{ totalCartQty }}</span>
+                        <span class="header-icons-noti">{{ cartItems.length }}</span>
 
                         <!-- Header cart noti -->
                         <div class="header-cart header-dropdown">
@@ -134,7 +134,7 @@
 
                     <div class="header-wrapicon2">
                         <img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-                        <span class="header-icons-noti">{{ totalCartQty }}</span>
+                        <span class="header-icons-noti">{{ cartItems.length }}</span>
 
                         <!-- Header cart noti -->
                         <div class="header-cart header-dropdown">
@@ -264,7 +264,17 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+
 export default {
+    computed: {
+        ...mapState('cart', { // 장바구니에 담긴 상품을 cartItems에 가져오고
+            cartItems: state => state.items
+        }),
+        ...mapGetters('cart', { // 장바구니에 담긴 상품의 총 금액을 계산한 결과를 totalCartPrice에 저장한다.
+            totalCartPrice: 'totalPrice'
+        }),
+    }
     
 }
 </script>

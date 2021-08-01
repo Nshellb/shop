@@ -26,7 +26,7 @@
 
                                         <div class="block2-btn-addcart w-size1 trans-0-4">
                                             <!-- Button -->
-                                            <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                            <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" @click="addToCart(product)">
                                                 Add to Cart
                                             </button>
                                         </div>
@@ -60,6 +60,11 @@ export default {
         ...mapState('product', {
             products: state => state.featuredProducts // featuredProducts 값을 vuex 에서 가져와서 products 배열로 사용
         }),
+    },
+    methods: {
+        addToCart(product){
+            this.$store.dispatch('cart/addItem', product);
+        }
     },
     created() {
         this.$store.dispatch('product/setFeaturedProducts').then(() => {
