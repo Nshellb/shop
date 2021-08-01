@@ -28,26 +28,22 @@
 </template>
 
 <script>
-import bannerApi from '@/api/banner';
+import { mapState } from 'vuex';
 
 export default {
     data() {
         return {
-            banners: [], // banner 배열 생성.
         }
     },
-    created() {
-        bannerApi.getMainSlideBanners().then(response => { // bannerApi의 getMainSlideBanners method 를 사용해서
-            this.banners = [].concat(response.data); // Ajax call로 가져온 결과를 banners 배열에 넣어준다.
-            
-            // response 배열을 바로 banners에 넣지 않은 이유는 
-            //this.banners = response.data; // 두 배열은 서로 같은 주소를 갖게 되고
-            //response.data.push(123); // response 배열에 값을 추가하는 등 변경이 있는 경우 banners배열에도 영향을 끼치게 된다.
-
-            this.$nextTick(() => {
-                $(this.$refs.slick).slick1();
-            })
+    computed: {
+        ...mapState('banner', { // mapState의 첫 번째 parameter를 string으로 주고 
+            banners: state => state.mainBanners // 두 번째 parameter에는 가져올 규칙을 넣는다. / banners를 vuex 에서 가져옴.
         })
-    }
+    },
+    created() {
+        this.$store.dispatch('banner/setMainBanners').then(() => { // banner 모듈의 setMainBanners 라는 action 을 dispatch 하도록 만들어 준다.
+            $(this.$refs.slick).slick1(); // 여기의 dispatch 는 Promise 객체를 return 하기 때문에 then 을 붙여서 slick 을 적용해준다.
+        });
+    },
 }
 </script>

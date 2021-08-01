@@ -242,3 +242,30 @@ nextTick 이라는 method 를 사용한다. nextTick 으로 넘긴 익명 함수
 
 
 
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 5. Vuex
+api 로 가져온 data 를 component 에 저장하지 않고 Vuex store 에 저장한 뒤 사용하여 refactoring 하는 작업.
+(Vuex 활용을 위한 강의 일뿐. 모든 data 를 vuex 에 refactoring 할 필요는 없다.
+data 를 어디에 저장할지는 설계에 따라 달라지므로 적절히 vuex 를 사용하자.)
+(ex. 이 예제의 main banner의 경우 한 번 load 하면 변경할 필요가 없기 때문에 component 에 저장해도 상관없다.)
+
+1) SlideBanner 에 저장된 data 를 vuex store 로 옮기기
+/src/store/banner/index.js 생성 및 작성.
+banner api 를 import 하고 state, mutations, actions 작성.
+
+작성 이후에는 /src/store 의 index.js 에서 banner module 을 import 하고 modules 영역에 추가한다.
+
+2) SlideBanner 의 Vuex 에서 값을 가져오는 코드 작성.
+SlideBanner.vue 에서 기존 banner api 를 사용했던 코드를 삭제한뒤 (script created 부분)
+banner 모듈의 setMainBanners 라는 action 을 dispatch 하도록 만들어 준다.
+여기의 dispatch 는 Promise 객체를 return 하기 때문에 then 을 붙여서 slick 을 적용해준다.
+
+3) banners 배열을 vuex 에서 가져오는 코드 작성.
+vuex 에서 mapState 를 import 하고
+computed 에 banners 를 vuex 에서 가져오는 코드 작성. 
+
+mapState 의 첫 번째 parameter 를 string 으로 주고 두 번째 parameter 에는 가져올 규칙을 넣는다. 
+첫 번째 parameter 로 정한 banner 라는 namespace 안에 있는 값을 가져오게 된다.
+
+여기까지가 SlideBanner 안에 저장했던 banners 를 vuex store 에 올린것이다.
+브라우저로 확인해 보면 기능은 동일한데 개발자 도구 - Vue Tab 에서 SlideBanner 안의 값을 Vuex 에서 가져왔음을 확인할 수 있다.
+Vuex Tab에서 Vuex 에 어떤 값들이 저장되어 있는지를 확인할 수 있다. 
