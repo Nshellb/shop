@@ -269,3 +269,56 @@ mapState 의 첫 번째 parameter 를 string 으로 주고 두 번째 parameter 
 여기까지가 SlideBanner 안에 저장했던 banners 를 vuex store 에 올린것이다.
 브라우저로 확인해 보면 기능은 동일한데 개발자 도구 - Vue Tab 에서 SlideBanner 안의 값을 Vuex 에서 가져왔음을 확인할 수 있다.
 Vuex Tab에서 Vuex 에 어떤 값들이 저장되어 있는지를 확인할 수 있다. 
+
+
+
+
+
+
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 6. 베스트상품 영역 구현하기
+상품 표시 영역 만들기. 5개의 상품을 api 로 받아오고 고정 promotion banner 하나 출력한다.
+
+1) Data 정의 
+/public/api/best-product.json 을 생성하고 5개의 데이터 작성.
+
+/src/api/product.js 파일 생성 및 http import, best-product를 가져오는 코드 작성.
+
+/src/components/home/BestProductList.vue 생성 및 기본 코드 작성.
+테마의 index.html 에서 코드를 확인해보면 div 3개로 BestProduct 가 작성 되어있음을 확인할 수 있다.
+해당 section 을 모두 복사하여 BestProductList.vue template 부분에 붙여 넣는다.
+
+data 저장을 위해서 /src/store/product/index.js 생성 및 코드 작성.
+getBestProducts 를 api 에서 가져와서 mutation 을 호출하고 state 에 저장하도록 만들어준다. 
+(5. Vuex 의 SlideBanner 참고)
+
+/src/store/index.js 에서 /product/index 를 import 하고 modules 에 추가한다.
+
+BestProductList.vue 에서 mapState 를 import 하고
+computed 에 mapState 작성하여 bestProducts 값을 vuex 에서 가져와서 products 배열로 사용한다고 정의.
+created 에 product 의 setBestProducts action 을 dispatch 해준다.
+
+여기까지가 vuex 의 data 를 가져오는 과정
+
+2) 템플릿 수정
+가져온 데이터는 5개이지만 첫 column 에 2개, 두 번째 column 에 2개, 
+세 번째 column 에 1개를 나눠서 표현해야하기 때문에 script 영역에서 미리 구분지어 준다.
+
+BestProductList.vue 의 mapState 이후에 각 column 별로 computed method 에서 
+가져올 products data 를 각각 구별하여 구현한다.
+
+BestProductList.vue template 에 각 column 별로 코드를 옮겨 넣고 
+인자들을 products.xxx 로 수정하여 products 의 data 를 가져온다.
+세 번째 template 의 경우 v-for 를 활용할 필요없이 하나의 데이터만 products 에서 가져온다.
+(computed method 인 thirdColumn 을 그대로 호출하여 사용한다.)
+고정 promotion 은 그대로 사용.
+
+/src/views/Home.vue 에서 /components/home/BestProductList.vue 를 import 하고 
+components 에 추가하고 template 에도 추가해준다.
+
+브라우저에서 확인해보면 undefine error 에서 image property 를 읽을수 없다는 에러가 발생하는데
+이는 BestProductList.vue 의 각 column을 나눠주는 computed method 에서
+api 에서 호출하기전 초기값이 /store/product/index.js 의 bestProducts: [] 와 같이 빈 array 기 때문에 
+BestProductList.vue 의 computed method - xxxColumn 에서 slice 하지 못하여 undefine error 가 발생했다고 추측함.
+-> 예외처리 작성. 각 column 에서 slice 하기 위한 만큼의 data 가 없으면 빈 array 를 return.
+
+브라우저에서 개발자 모드의 vue - vuex 를 확인해보면 각 상품들의 정보가 잘 올라가 있음을 확인할 수 있다.
