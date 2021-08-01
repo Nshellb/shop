@@ -168,3 +168,77 @@ topbar-social 의 경우 새창에서 열리는 것들이기에 그냥 a tag를 
 
 
 
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 4. API 호출해서 배너 출력하기
+Ajax를 사용하여 back-end 에서 data 를 받아오는 구현.
+실제 서버는 구현하지 않고 /public/api 를 만들어서 가져옴.
+
+1) api data 만들기
+/public/api 디렉토리 생성 및 banner.json 생성. + 코드 작성
+배너의 이미지는 상기한 사이트의 random 이미지를 가져옴.
+http://localhost:8080/api/banner.json 에서 가져온 data 확인 가능.
+
+2) api 코드 구현
+data를 Ajax로 가져와서 Vue.js 내부에서 사용할 수 있도록하는 api 코드 구현
+/src/api 디렉토리 생성 및 http.js 생성. + 코드 작성
+
+http.js 안에서 사용하는 axios 패키지 설치.
+npm install axios --save-dev
+
+현세대에서는 method 와 url 을 사용해서 용도를 구분하는 REST API(RESTful API) 를 사용.
+http.js 에서 Http class 는 put 이나 delete 와 같이 구버전 브라우저에서 지원하지 않는 method 는 
+hidden input 에 method 를 담아서 POST 로 보내는 방식을 구현하고
+Ajax 를 호출시 banner 처리를 한 번에 할 수 있는 기반을 만들기 위한 class 이다.
+
+http.js 의 Http class 내부에는 기존의 baseUrl 과 넘겨받은 url 을 연결해서 
+api 서버를 별도로 운영할 경우 해당하는 주소로 바꿔주는 parseUrl 이 선언되어 있다.
+
+넘겨받은 url 을 바탕으로 ajax 를 호출하는 method 를 구현했다.
+
+get/post 는 기존의 axios 에서 제공하는 것을 그대로 사용했고,
+update와 destroy 는 php framework 를 사용하는데 
+구버전 브라우저에서 지원하지 않는 method 를 위해서 _method 형태로 post 로 넘겨 사용한다.
+data['_method'] = 'put / delete'; 부분을 사용하는 back-end framework 에 맞춰서 사용하면 된다.
+
+최종적으로 Http class 를 통해 ajax 를 호출하여 원하는 data 를 사용할 수 있다.
+
+3) banner data 를 가져와서 사용
+banner 의 내용을 가져오는 코드를 /api/banner.js 를 생성하여 작성한다.
+
+4) main 화면의 slide banner 구현
+/components/SlideBanner.vue 생성 및 기본 component 코드 작성.
+테마의 index.html 코드 중에서 Header 다음의 첫 번째 section 으로 나오는 Slide1 class 코드를 가져와서 
+SlideBanner.vue 에 붙여넣는다.
+
+api 를 통해서 banner 가 작동되도록 코드 작성
+반복문을 사용하여 구현하기 때문에 한부분만 남겨두고 중복되는 부분을 삭제한다.
+script 에 import banner.js 를 import 하고
+ajax 를 통해서 data(이미지)를 가져와서 사용하는 코드를 작성한다.
+
+배너를 추가하기 위해서 Home.vue에 SlideBanner.vue 를 import 하고
+SlideBanner component 를 추가하고 template 에 추가한다.
+
+브라우저에서 Vue 확장 프로그램을 추가하고 App>Home>SlideBanner 를 확인해보면 banner 의 Object를 확인할 수 있다.
+
+SlideBanner.vue 에서 slick1 아래에 v-for 구문을 통한 banner 를 작성하고 기존의 태그를 넣는다.
+유동적으로 변하는 구문들을 vue.js 문법으로 작성한다. (각 요소들을 banner.xx 로 호출.)
+
+사진들이 위에서 아래로 쭉 늘어지는 형태를 갖게 되는데 slick 가 적용되지 않았기 때문이다.
+/public/js/slick-custom.js 에서 특정 class 를 찾고 적용시키는 형태이기에 작동하지 않았음을 확인할 수 있다.
+3개로 나누어진 코드를 각각 하나의 함수로 묶는다.
+이때 slickN 을 selecter 로 사용하고 있기 때문에 this 로 변경해준다.
+
+SlideBanner.vue component 에서 banners 배열의 내용이 한 번에 출력된뒤 slick이 적용되어야한다.
+component 내부에서 selecter 로 slick1 을 사용해도 되지만 다른 component 에서 slick1 이라는 class 를 사용할 경우를 대비하여
+SlideBanner 안에 있는 Element 를 선택하기 위해서 slick1 을 가진 div 태그에 ref attribute로 slick 이라는 이름을 주고
+banners 배열에 ajax response data 를 집어넣고 slick 을 적용해준다.
+
+banners 배열에 값을 넣기는 했지만 slick1 을 호출한 시점은 created method 가 끝나지 않아서
+화면에 그려지기 전이기 때문에 동작을 하지 않는다.
+nextTick 이라는 method 를 사용한다. nextTick 으로 넘긴 익명 함수는 method 실행이 끝나고 화면에 그려준뒤 실행된다.
+(:key 오류는 vue2에서는 고유한 key값 입력이 필요했지만 vue3 에서는 자동으로 넣는다고 한다...)
+
+
+
+
+
+

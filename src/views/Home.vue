@@ -1,14 +1,16 @@
 <template>
   <div class="home">
-    homepage
+    <SlideBanner />
   </div>
 </template>
 
 <script>
+import SlideBanner from '@/components/home/SlideBanner.vue';
 
 export default {
   name: 'Home',
   components: {
+    SlideBanner,
   }
 }
 </script>
