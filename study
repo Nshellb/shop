@@ -322,3 +322,12 @@ BestProductList.vue 의 computed method - xxxColumn 에서 slice 하지 못하�
 -> 예외처리 작성. 각 column 에서 slice 하기 위한 만큼의 data 가 없으면 빈 array 를 return.
 
 브라우저에서 개발자 모드의 vue - vuex 를 확인해보면 각 상품들의 정보가 잘 올라가 있음을 확인할 수 있다.
+(best-product.json 을 잘못 가져와서 안됬었다... json 형식의 키값으로 호출.)
+
+
+
+
+
+
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 7. Featured product 영역 구현하기
+Featured products 영역 구현. new sale 붙은 항목, slide 기능. hover 시 장바구니 담는 버튼.
