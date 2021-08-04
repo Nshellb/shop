@@ -383,3 +383,103 @@ template 으로 감싸고 v-for 로 반복하여 출력하도록 구현한다.
 
 브라우저에서 addToCart 이후 장바구니를 확인하면
 정상적으로 상품이 담기고 총 금액이 계산된것을 확인할 수 있다.
+
+
+
+
+
+
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 8. 상품목록 구현하기 (1)
+Header 의 shop 을 눌렀을 때 나오는 상품 페이지 구현하기.
+큰 배너, 카테고리, 필터, 가격대, 기능 구현 필요.
+상품 목록 페이지와 Featured Products 가 동일한 형태이기에 
+미리 작업한 코드를 component 로 분리해서 사용할 예정.
+
+1) shop 페이지 기본 틀 구현
+테마의 product.html 에서 상단 배너 부분에 해당하는 section 을 
+/src/views/shop.vue에 에 넣는다.
+
+2) filter selection 구현
+테마의 product.html 에서 filterBar 부분이다.
+noUiSlider 가 css 로 선언되어 있지않기 때문에 해당 css 를 /public/index.html 에 추가하고
+하단의 noUiSlider 관련 script 도 /public/index.html 에 추가한다.
+
+No ui slider 관련된 script 코드를 component 안에 mounted method 를 만들어서 추가한다.
+
+shop.vue 에 너무 많은 코드가 들어있기에 이를 구분하기 위해서 별도의 component 로 분리하여 구현.
+
+/src/components/shop/PriceFilter.vue 생성 및 코드 작성.
+Price Filter 관련 태그를 template 에 넣고 mounted method 를 만들고 script 코드를 넣는다.
+
+shop.vue 에서 PriceFilter.vue 를 import 하고 components 에 추가한다.
+PriceFilter 가 있던 자리에는 component 로 추가해 넣는다.
+
+3) categoryfilter 및 colorfilter 구현
+/src/components/shop/CategoryFilter.vue 생성 및 코드 작성.
+categoryfilter 관련 태그를 template 에 넣는다.
+/src/components/shop/ColorFilter.vue 생성 및 코드 작성.
+colorfilter 관련 태그를 template 에 넣는다.
+
+shop.vue 에 CategoryFilter 와 ColorFilter import 하고 components 에 넣는다.
+CategoryFilter 와 ColorFilter 각각을 template 위치에 작성한다.
+shop 페이지 배너 아래의 select box 는 좌측의 filter 와 기능이 겹치기 때문에 삭제한다.
+
+브라우저에서 확인하면 좌측 메뉴의 기능이 모두 동작하는것을 확인할 수 있다.
+
+4) 미리 만들어 두었던 상품 박스 분리
+미리 만들어 놓은 상품 박스 (Featured Products 에 있던.)의 component 를 분리한다. 
+/src/components/product.vue 를 생성하고 FeaturedProductList.vue 에 구현해 두었던
+상품 출력 관련코드 (template slick2~block2) 를 product.vue 에 붙여 넣는다.
+template 안에 있는 값들을 외부에서 받아 올 수 있도록 props 에 product 를 등록한다.
+
+FeaturedProductList.vue 의 addToCart method 를 product.vue methods 에 넣는다.
+FeaturedProductList.vue 에서 product.vue 를 import 하고 components 에 추가한다.
+FeaturedProductList.vue 에서 product 태그가 있던 공간에 product component 를 추가한다.
+
+브라우저에서 확인해보면 component 로 분리 되었지만 Featured Product 가 정상적으로 출력되는것을 확인할 수 있다.
+
+5) 상품 목록 구현
+/src/components/shop/ProductList.vue 생성 및 기본 코드 작성.
+api 로 data 를 가져오게 구현.
+/public/api/products.json 생성 및 데이터 작성. (products 라는 항목안에 작성.)
+
+/src/api/products.js 에 상품 데이터를 가져오는 코드를 작성.
+
+/src/store/product/index.js 에 products, totalProducts state 작성.
+mutation 및 actions 작성.
+
+/src/components/shop/ProductList.vue 에 created method 작성.
+
+Shop.vue 에 ProductList 를 import 하고 components 를 추가한다.
+template 의 ProductList 부분을 잘라내고 component 를 사용하도록 코드를 수정한다.
+잘라냈던 ProductList 부분 코드는 ProductList.vue 의 template 에 붙여넣는다.
+
+브라우저에서 FeaturedProduct 처럼 상품이 출력됨을 확인할 수 있다.
+Vue - Vuex 탭에서 12 개의 products 배열과 totalProducts 24 개를 확인할 수 있다.
+
+ProductList.vue 에서 mapState 를 import 및 작성하여 상품정보를 받아오게 한다.
+Product component 를 import 및 components 에 추가한다.
+반복되는 구문을 v-for 로 구현한다.
+
+브라우저에서 사진까지 잘 출력되는것을 확인할 수 있다.
+addToCart 를 통해서도 장바구니 기능이 잘 동작하는것을 확인할 수 있다.
+(addToCart 기능 재사용을 위해서 기존 FeaturedProduct 를 사용한듯 하다.)
+
+6) 상품목록 상단과 하단의 상품 총 갯수와 page 구현.
+parameter 를 back-end 로 구현해야 하기 때문에 /src/api/product.js 에서 
+getProducts method 의 parameter 로 기본 값을 1 로 갖는 page 를 추가한다.
+
+/src/store/product/index.js 에서 page state 와 mutations 를 추가하고 
+setProducts actions 에 page parameter 를 추가한다.
+(page parameter 에 따라서 setProducts 호출이 바뀌고 출력되는 상품도 바뀌어야 하지만 
+아직은 back-end logic 미구현 상태이므로 페이지 전화에 따라 상품이 바뀌지 않는다.)
+
+Shop.vue 에서 mapState 를 import 하고 computed 로 화면에 출력하기 위한 데이터를 가져온뒤
+현재보고 있는 상품의 인덱스와 총 상품수를 표시하고 (showing ~)
+상품목록 페이지 버튼을 구현한다.
+(총 상품 갯수를 12 개로 나눈 값만큼으로 상품을 나누고 현재 page 에 표시를 하도록 changePage method 구현.)
+
+브라우저에서 확인해 보면 상품 count, 상품 목록, 페이지 이동 기능이 동작하는것을 확인할 수 있다.
+(페이지에 따른 상품 출력 변경은 앞서 말한것처럼 아직이다.)
+network 탭에서 ajax query 가 정상적으로 동작하는 것을 확인할 수 있다. (page parameter 변화.)
+page 값에 따른 return 값을 다르게하는 back-end logic 을 통해 페이지 이동에 따른 상품 출력 변경을 할 수 있을것임.
