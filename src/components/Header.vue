@@ -66,7 +66,7 @@
 
                     <div class="header-wrapicon2">
                         <img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-                        <span class="header-icons-noti">{{ cartItems.length }}</span>
+                        <span class="header-icons-noti">{{ totalCartQty }}</span>
 
                         <!-- Header cart noti -->
                         <div class="header-cart header-dropdown">
@@ -83,7 +83,7 @@
                                             </router-link>
 
                                             <span class="header-cart-item-info">
-                                              {{ product.qty }} x ${{ product.price }}
+                                                {{ product.qty }} x ${{ product.price }}
                                             </span>
                                         </div>
                                     </li>
@@ -97,7 +97,7 @@
                             <div class="header-cart-buttons">
                                 <div class="header-cart-wrapbtn">
                                     <!-- Button -->
-                                    <a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                    <a href="/features" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
                                         View Cart
                                     </a>
                                 </div>
@@ -134,7 +134,7 @@
 
                     <div class="header-wrapicon2">
                         <img src="images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
-                        <span class="header-icons-noti">{{ cartItems.length }}</span>
+                        <span class="header-icons-noti">{{ totalCartQty }}</span>
 
                         <!-- Header cart noti -->
                         <div class="header-cart header-dropdown">
@@ -151,7 +151,7 @@
                                             </router-link>
 
                                             <span class="header-cart-item-info">
-                                              {{ product.qty }} x ${{ product.price }}
+                                                {{ product.qty }} x ${{ product.price }}
                                             </span>
                                         </div>
                                     </li>
@@ -165,7 +165,7 @@
                             <div class="header-cart-buttons">
                                 <div class="header-cart-wrapbtn">
                                     <!-- Button -->
-                                    <a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                    <a href="/features" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
                                         View Cart
                                     </a>
                                 </div>
@@ -269,10 +269,11 @@ import { mapState, mapGetters } from 'vuex';
 export default {
     computed: {
         ...mapState('cart', { // 장바구니에 담긴 상품을 cartItems에 가져오고
-            cartItems: state => state.items
+            cartItems: state => state.items,
         }),
         ...mapGetters('cart', { // 장바구니에 담긴 상품의 총 금액을 계산한 결과를 totalCartPrice에 저장한다.
-            totalCartPrice: 'totalPrice'
+            totalCartPrice: 'totalPrice',
+            totalCartQty: 'totalQty',
         }),
     }
     

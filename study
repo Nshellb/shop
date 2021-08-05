@@ -507,7 +507,7 @@ ajax call 에서 parameter 가 제대로 담겨서 나가는지만 확인.
 
 2) 받아오는 값을 api 호출시 넘겨주게 구현.
 /src/api/product.js 에서 getProducts 에 parameter priceRange 값을 받아오도록 설정.
-/src/sotre/product/index.js 에서도 추가한 parameter priceRange 를 사용할 수 있도록 state 에 추가.
+/src/store/product/index.js 에서도 추가한 parameter priceRange 를 사용할 수 있도록 state 에 추가.
 mutations 과 actions 에 priceRange 코드 추가. 
 setPriceRange 에서 setProducts 을 호출하기 때문에 priceRange 값을 가져와서 api 를 호출 할 수 있도록 setProducts 를 수정.
 
@@ -515,3 +515,80 @@ PriceFilter.vue 에서 'end' 인자를 받는 구문에 setPriceRange 를 호출
 
 브라우저에서 가격을 변경하거나 페이지를 이동할 때 바뀐 쿼리가 날아가는것을 확인할 수 있다. (api 를 외부 back-end 와 붙여주면 될듯?)
 
+
+
+
+
+
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 10. 장바구니 구현하기
+페이지의 Features 를 누르면 장바구니 페이지가 열리는 것을 구현.
+
+1) 기본 틀 작성
+/src/views/Features.vue 파일 생성
+테마의 cart.html 의 상단 배너에 해당하는 부분을 template 에 작성.
+테마의 cart.html 장바구니 리스트에 해당하는 부분을 template 에 작성.
+(coupon 기능은 back-end 가 필요하므로 제외, update cart 는 장바구니를 비우는 버튼으로 활용.)
+coupon 관련 태그는 모두 삭제.
+
+2) 상품 목록에 대한 태그를 분리
+/src/components/features/CartList.vue 파일 생성.
+Features.vue 의 상품 목록 관련 코드를 잘라내어 붙여넣는다.
+Features.vue 에 CartList 를 import 하고 components 에 추가한다.
+
+CartList.vue 에 mapState 를 추가하고 
+computed 에 장바구니에 담긴 상품을 가져오는 구문을 작성한다.
+
+CartList.vue 에 상품을 출력하는 태그를 작성한다. (v-for cartItems)
+
+router.js 파일에 Features component 의 path 를 지정한다.
+
+Header.vue 파일에서 메뉴부분에서 features 로 이동하는 router-link 구문 작성. 
+
+브라우저에서 상품을 카드에 담고 Features 페이지에서 상품을 확인할 수 있다.
+
+3) Features 페이지에서 상품의 이미지를 클릭하면 삭제되는 method 작성
+기존 데이터는 상품을 구분하는 고유 id 가 없기때문에 
+/public/api/featured-product.json 에 id 값을 추가해준다.
+
+브라우저로 장바구니에 상품을 추가한 후 vue - vuex 에서 additem 시 고유 id 값이 추가되는것을 확인할 수 있다.
+
+/src/store/cart/index.js 의 mutations 과 actions 에 delItem 을 추가.
+
+CartList.vue 파일에서 상품 이미지 클릭 이벤트인 delItem 을 추가, methods 에 추가.
+
+브라우저에서 장바구니에 상품을 추가하고 Features 페이지에서 이미지를 누르면 장바구니에서 항목이 삭제되는 것을 확인할 수 있다.
+
+4) 장바구니의 수량 조절 기능 구현 1
+/src/store/cart/index.js 에서 addItem 을 수정한다.
+장바구니에 id 값이 같은 상품이 있는지를 확인하여 상품을 추가하거나 주문 수량을 늘리는 선택적인 기능을 구현.
+totalPrice 또한 상품 수량을 곱하는 연산을 추가하여 상품 수량에 따른 총금액을 계산하도록 수정.
+
+totalQty 라는 상품의 총 갯수를 출력하는 getter 작성.
+Header.vue 에서 computed 에 totalQty 를 추가.
+header-wrapicon2 부분의 수량 출력 구문을 cartItems.length 를 totalCartQty 로 수정한다.
+
+브라우저에서 상품을 중복으로 추가하는 경우 우측상단의 장바구니 및 Features 탭에서 확인시 정상적으로 추가되는것을 확인할 수 있다.
+
+5) 장바구니의 수량 조절 기능 구현 2
+/src/store/cart/index.js 에서 changeQty 구문을 mutations 와 actions 에 추가한다.
+qty 를 증가 및 감소 시키는 actions 를 구현.
+CartList.vue 에서 + 및 - 버튼에 increase 및 decrease methods 를 추가 및 구현한다.
+:value="item.qty" 구문으로 상품의 개수를 나타내도록 수정.
+
+브라우저에서 확인시 +, - 버튼을 통한 수량조절이 잘 동작하는것을 확인할 수 있다.
+
+(* update cart 의 경우 사용자가 수정한 수량을 back-end 에 update 하는 버튼인데
+기존 api 를 만들었던것처럼 api 디렉토리 아래에 ajax 를 호출하는 코드를 추가하고 
+버튼 클릭시 api 를 호출하도록 구현하거나
+
+update cart 버튼을 따로 만들 필요없이 vuex cart module 에 있는 increaseQty 나 decreaseQty actions 에 
+api 를 호출하는 코드를 추가하는 방법도 있다. )
+
+6) update cart 버튼을 clear cart 버튼으로 수정하여 기능 구현
+/src/store/cart/index.js 에서 clearCart mutations 및 actions 를 추가한다.
+Features.vue 에서 update cart 버튼을 clear cart 버튼으로 바꾸고 click 이벤트로 clearCart 를 호출한다.
+
+브라우저에서 확인시 정상적으로 장바구니가 비워지는것을 확인할 수 있다.
+
+
+// views 에는 페이지의 큰 틀이 작성된다.
