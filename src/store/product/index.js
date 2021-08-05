@@ -8,6 +8,7 @@ export default {
         bestProducts: [],
         featuredProducts: [],
         page: 0, // 페이지 위치
+        priceRange: null, // pricefilter
     },
     mutations: {
         setBestProducts(state, products) {
@@ -24,6 +25,9 @@ export default {
         },
         setPage(state, page) {
             state.page = page;
+        },
+        setPriceRange(state, priceRange) {
+            state.priceRange = priceRange;
         }
     },
     actions: {
@@ -37,12 +41,17 @@ export default {
 
             commit('setFeaturedProducts', response.data); 
         },
-        async setProducts({ commit }, page = 0) {
-            const response = await productApi.getProducts(page); 
+        async setProducts({ commit, state }, page = 0) {
+            const response = await productApi.getProducts(page, state.priceRange); 
 
             commit('setProducts', response.data.products);
             commit('setTotalProducts', response.data.total);
             commit('setPage', page);
+        },
+        async setPriceRange({ commit, dispatch }, priceRange) { // 상태값만 변경.
+            commit('setPriceRange', priceRange); // 상태값만 변경.
+
+            dispatch('setProducts'); // 기존 api 를 호출하던 setProducts action 을 호출
         },
     },
 }

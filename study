@@ -483,3 +483,35 @@ Shop.vue 에서 mapState 를 import 하고 computed 로 화면에 출력하기 �
 (페이지에 따른 상품 출력 변경은 앞서 말한것처럼 아직이다.)
 network 탭에서 ajax query 가 정상적으로 동작하는 것을 확인할 수 있다. (page parameter 변화.)
 page 값에 따른 return 값을 다르게하는 back-end logic 을 통해 페이지 이동에 따른 상품 출력 변경을 할 수 있을것임.
+
+
+
+
+
+
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 9. 상품목록 구현하기(2)
+filtering option 구현.
+vuex store 에 filtering option 에 맞는 상품만 가져오는 getter 를 만들어서 상품 list 를 가져오거나
+(ajax code 는 최소화하여 효율적. filtering 한 상품 목록이 12개 단위가 되어야하기 때문에 구현이 복잡할 수 있다.)
+filtering option 을 변경할때마다 선택할 option 정보를 가지고 새로운 상품 list 를 back-end 에서 가져오는 방법이 있다.
+(보통 상품 목록을 가져오는것이 효율적이다.)
+두 번째 방법을 사용할 예정.
+
+이 프로젝트는 back-end logic 미구현으로 filtering 을 해도 상품이 같을것이다.
+ajax call 에서 parameter 가 제대로 담겨서 나가는지만 확인.
+
+1) 슬라이드 값 확인
+/src/components/shop/PriceFilter.vue 에서는 noUiSlider 로 이벤트를 적용하였음. 
+(대부분의 템플릿을 만들때는 유명한 패키지를 사용. googling 해서 확인가능.)
+'end' 인자를 받아서 가격 슬라이드 값이 받아와지는것을 구현. (console.log 로 values 값을 찍어 보았음.)
+
+2) 받아오는 값을 api 호출시 넘겨주게 구현.
+/src/api/product.js 에서 getProducts 에 parameter priceRange 값을 받아오도록 설정.
+/src/sotre/product/index.js 에서도 추가한 parameter priceRange 를 사용할 수 있도록 state 에 추가.
+mutations 과 actions 에 priceRange 코드 추가. 
+setPriceRange 에서 setProducts 을 호출하기 때문에 priceRange 값을 가져와서 api 를 호출 할 수 있도록 setProducts 를 수정.
+
+PriceFilter.vue 에서 'end' 인자를 받는 구문에 setPriceRange 를 호출하는 구문 작성.
+
+브라우저에서 가격을 변경하거나 페이지를 이동할 때 바뀐 쿼리가 날아가는것을 확인할 수 있다. (api 를 외부 back-end 와 붙여주면 될듯?)
+
