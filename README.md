@@ -14,31 +14,32 @@ https://colorlib.com/wp/ 페이지의 fashe 테마 사용.
 (테마 경로 - https://colorlib.com/wp/template/fashe/)  
 유료화 되었기에 https://github.com/lessipe/vue-fashe/tree/master/public 코드 사용...  
 
-3) 예제용 이미지 다운로드
+3) 예제용 이미지 다운로드  
 https://picsum.photos/ 페이지의 Random 이미지 사용.  
-https://picsum.photos/seed/picsum/200/300?random 을 사용.
+https://picsum.photos/seed/picsum/200/300?random 을 사용.  
 
-4) 테마 적용을 위한 기본 템플릿 정리.
-npm run serve 로 vue 구동 확인. -> http://localhost:8080/ 로 브라우저 접속하여 확인.
-/src/components/HelloWorld.vue 삭제.
-/src/views/About.vue 삭제.
-/src/views/Home.vue는 template>div 및 script>export default만 남김.
-/src/router/index.js 삭제 및 /src/router.js 작성. (기존과 다른 형식의 코드여서 사용해보기로..) (vue-router)
-/src/store/index.js 코드 확인 및 main.js의 router 및 store 코드 정정. (vuex)
-/src/App.vue 의 template>div 만 남기고 style 태그 삭제
+4) 테마 적용을 위한 기본 템플릿 정리.  
+npm run serve 로 vue 구동 확인. -> http://localhost:8080/ 로 브라우저 접속하여 확인.  
+/src/components/HelloWorld.vue 삭제.  
+/src/views/About.vue 삭제.  
+/src/views/Home.vue는 template>div 및 script>export default만 남김.  
+/src/router/index.js 삭제 및 /src/router.js 작성. (기존과 다른 형식의 코드여서 사용해보기로..) (vue-router)  
+/src/store/index.js 코드 확인 및 main.js의 router 및 store 코드 정정. (vuex)  
+/src/App.vue 의 template>div 만 남기고 style 태그 삭제  
 
-5) 테마 적용
-테마의 css, fonts, images, js, vendor 디렉토리를 /public/ 에 넣는다.
-테마의 index.html 코드를 /public/index.html 에 옮겨넣는다.
- - css 속성들을 title 아래에 붙여 넣는다. (<!--===~===---> 형태의 주석행들 사이의 코드들.)
- - js 태그를 body 태그 안쪽 제일 아래에 붙여 넣는다. (<!--===~===---> 형태의 주석행들이 감싸는 코드 ~ <script src="js/main.js"></script>까지.)
- - 기타 부수적인 태그들도 (Back to top / container Selection1) div.app 태그틀 이후에 넣는다.
-적용한 코드들을 npm run serve(이하 vue 실행) 으로 실행한후 확인한다. (Element 에서 CSS, JS 태그 확인 / Console 에서 Error 없음 확인)
+5) 테마 적용  
+테마의 css, fonts, images, js, vendor 디렉토리를 /public/ 에 넣는다.  
+테마의 index.html 코드를 /public/index.html 에 옮겨넣는다.  
+ - css 속성들을 title 아래에 붙여 넣는다. (<!--===~===---> 형태의 주석행들 사이의 코드들.)  
+ - js 태그를 body 태그 안쪽 제일 아래에 붙여 넣는다. (<!--===~===---> 형태의 주석행들이 감싸는 코드 ~ <script src="js/main.js"></script>까지.)  
+ - 기타 부수적인 태그들도 (Back to top / container Selection1) div.app 태그틀 이후에 넣는다.  
+적용한 코드들을 npm run serve(이하 vue 실행) 으로 실행한후 확인한다. (Element 에서 CSS, JS 태그 확인 / Console 에서 Error 없음 확인)  
 
-6) 레이아웃 생성 - Header
-/src/components/Header.vue 생성.
-기본 코드 작성.
+6) 레이아웃 생성 - Header  
+/src/components/Header.vue 생성.  
+기본 코드 작성.  
 
+```
 <template>
 </template>
 
@@ -47,13 +48,15 @@ export default {
     
 }
 </script>
+```
 
-테마 index.html의 header 태그를 template 태그 안에 붙여 넣음.
+테마 index.html의 header 태그를 template 태그 안에 붙여 넣음.  
 
-7) 레이아웃 생성 - Header
-/src/components/Footer.vue 생성.
-기본 코드 작성.
+7) 레이아웃 생성 - Header  
+/src/components/Footer.vue 생성.  
+기본 코드 작성.  
 
+```
 <template>
 </template>
 
@@ -62,60 +65,61 @@ export default {
     
 }
 </script>
+```
 
-테마 index.html의 footer 태그를 template 태그 안에 붙여 넣음.
+테마 index.html의 footer 태그를 template 태그 안에 붙여 넣음.  
 
-8) 추가한 component 적용
-App.vue 의 div에 Header 및 Footer 태그를 추가하고 
-script에 Header와 Footer를 import 하고 
-export default - components에 Header와 Footer를 추가한다.
-// @ 경로는 Vue cli가 자동으로 /src와 연결해둔 경로이다.
-vue를 실행하여 브라우저로 접속하여 Header와 Footer를 확인할 수 있다.
-
-
-
+8) 추가한 component 적용  
+App.vue 의 div에 Header 및 Footer 태그를 추가하고  
+script에 Header와 Footer를 import 하고  
+export default - components에 Header와 Footer를 추가한다.  
+(@ 경로는 Vue cli가 자동으로 /src와 연결해둔 경로이다.)  
+vue를 실행하여 브라우저로 접속하여 Header와 Footer를 확인할 수 있다.  
 
 
 
-[Vue.js] 템플릿을 활용한 Vue.js 개발 - 2. 템플릿 구조
-1) 우측 상단 Select box 수정
-우클릭 - 검사를 통해 해당 요소의 html 태그를 확인할 수 있다.
-(이하 git에서 가져온 완성 코드이기에 나는 확인 안됨...) 
-select2 라는 태그가 확인되며 이는 패키지지로도 존재한다.(search google)
-테마 index.html의 css와 script에도 select2를 확인할 수 있다.
-브라우저의 Console에 select2 js 구문을 입력하는 경우 제대로 적용 되는것을 확인할 수 있다.
--> 이는 script가 body 태그 어딘가에는 포함되어 있으나 
-   브라우저의 경우 div-app이라는 태그 하나만 있는 상태로 받아오게 된다.
 
 
-npm run build 명령을 통해서 브라우저가 실제 받게될 html 을 생성.
-/dist/index.html이 실제 브라우저가 받아오게될 html 파일.
-css 코드와 script 사이에 noscript 항목을 발견할 수 있다.
+
+[Vue.js] 템플릿을 활용한 Vue.js 개발 - 2. 템플릿 구조  
+1) 우측 상단 Select box 수정  
+우클릭 - 검사를 통해 해당 요소의 html 태그를 확인할 수 있다.  
+(이하 git에서 가져온 완성 코드이기에 나는 확인 안됨...)  
+select2 라는 태그가 확인되며 이는 패키지지로도 존재한다.(search google)  
+테마 index.html의 css와 script에도 select2를 확인할 수 있다.  
+브라우저의 Console에 select2 js 구문을 입력하는 경우 제대로 적용 되는것을 확인할 수 있다.  
+-> 이는 script가 body 태그 어딘가에는 포함되어 있으나  
+   브라우저의 경우 div-app이라는 태그 하나만 있는 상태로 받아오게 된다.  
 
 
-script load 순서를 보다보면 해결책을 찾을 수 있는데
-vue.js logic이 들어있는 /js/app.~를 확인할 수 있고
+npm run build 명령을 통해서 브라우저가 실제 받게될 html 을 생성.  
+/dist/index.html이 실제 브라우저가 받아오게될 html 파일.  
+css 코드와 script 사이에 noscript 항목을 발견할 수 있다.  
+
+
+script load 순서를 보다보면 해결책을 찾을 수 있는데  
+vue.js logic이 들어있는 /js/app.~를 확인할 수 있고  
 app.vue의 태그들이 load 되기전에 select2가 실행되기 때문에 오류가 난것으로 확인할 수 있다.
 
 
-select2의 적용 위치를 결정하기 위해서 
-Vue.js 공식 홈페이지에서 lifecycle을 확인하면,
+select2의 적용 위치를 결정하기 위해서  
+Vue.js 공식 홈페이지에서 lifecycle을 확인하면,  
 
-new Vue에서 component를 생성하고
-초록 및 노랑 부분은 Vue.js 내부에서 실행되는 부분이다.
-흰바탕의 붉은 글씨로 표기되는 beforeCreate 와 같은 부분이 실제 개발자가 코드를 심을 수 있는 부분이다.
-(created, mounted, beforeDestroy 부분을 주로 활용)
+new Vue에서 component를 생성하고  
+초록 및 노랑 부분은 Vue.js 내부에서 실행되는 부분이다.  
+흰바탕의 붉은 글씨로 표기되는 beforeCreate 와 같은 부분이 실제 개발자가 코드를 심을 수 있는 부분이다.  
+(created, mounted, beforeDestroy 부분을 주로 활용)  
 
-created :instance 가 생성된 다음 바로 호출된다. 
-Vue instance 는 생성 되었지만 화면에 그려진 상태가 아니라서 태그에 접근하지는 못하고 data, method 만 사용 가능한 상태이다.
-api 로 data를 가져와서 출력 해야하는 component의 경우 created 에 api 로 data를 가져오는 logic을 넣으면 된다.
+*created :instance 가 생성된 다음 바로 호출된다.  
+Vue instance 는 생성 되었지만 화면에 그려진 상태가 아니라서 태그에 접근하지는 못하고 data, method 만 사용 가능한 상태이다.  
+api 로 data를 가져와서 출력 해야하는 component의 경우 created 에 api 로 data를 가져오는 logic을 넣으면 된다.  
 
-mounted : 화면에 그려진뒤 호출된다.
-화면에 출력이 되었기 때문에 태그에 접근할 수 있어서 대부분의 작업이 이루어지는 단계이다.
-화면 출력(태그 load) 이후에 작업이 이루어져야 하는 코드의 경우 mounted 에 logic을 넣으면 된다.
+*mounted : 화면에 그려진뒤 호출된다.  
+화면에 출력이 되었기 때문에 태그에 접근할 수 있어서 대부분의 작업이 이루어지는 단계이다.  
+화면 출력(태그 load) 이후에 작업이 이루어져야 하는 코드의 경우 mounted 에 logic을 넣으면 된다.  
 
-beforeDestroy : instance 가 제거되기전에 호출된다.
-별도의 event listener를 등록한 경우 이곳에서 제거를 진행하는 logic을 넣으면 된다.
+*beforeDestroy : instance 가 제거되기전에 호출된다.  
+별도의 event listener를 등록한 경우 이곳에서 제거를 진행하는 logic을 넣으면 된다.  
 
 
 /public/index.html의 select2 코드를 잘라내서 
